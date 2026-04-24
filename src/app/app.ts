@@ -1,10 +1,13 @@
 import { Component, signal } from '@angular/core';
+import { TodoContainer } from "./components/todo-container";
 
 
 @Component({
   selector: 'app-root',
-  imports: [],
-  template:`<h1>Todo</h1>`,
+  imports: [TodoContainer],
+  template:`
+    <app-todo-container class="container"/>
+  `,
   styles:``
 })
 export class App {

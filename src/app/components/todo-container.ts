@@ -7,7 +7,7 @@ import { TodoInterface } from '../shared/interfaces/todo.interface';
   selector: 'app-todo-container',
   imports: [TodoForm, TodosList],
   template: `
-    <app-todo-form />
+    <app-todo-form (addTodo)="addTodo($event)" />
     <app-todos-list [todosList]="todosList()" />
   `,
   styles: `
@@ -34,4 +34,8 @@ export class TodoContainer {
       done: false,
     },
   ]);
+
+  addTodo(todo: TodoInterface) {
+    this.todosList.update((todos) => [...todos, todo])
+  }
 }

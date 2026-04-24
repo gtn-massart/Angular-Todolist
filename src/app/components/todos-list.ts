@@ -1,15 +1,17 @@
-import { Component } from '@angular/core';
-import { Todo } from "./todo";
+import { Component, effect, input } from '@angular/core';
+import { Todo } from './todo';
+import { TodoInterface } from '../shared/interfaces/todo.interface';
 
 @Component({
   selector: 'app-todos-list',
   imports: [Todo],
   template: `
     <ul class="flex flex-col gap-12">
-      <app-todo />
-      <app-todo />
-      <app-todo />
-      <app-todo />
+      @for (todo of todosList(); track todo.id) {
+        <app-todo [todo]="todo" />
+      } @empty {
+        <li>Il n'y a aucune todo pour le moment</li>
+      }
     </ul>
   `,
   styles: `
@@ -18,4 +20,13 @@ import { Todo } from "./todo";
     }
   `,
 })
-export class TodosList {}
+export class TodosList {
+  todosList = input<TodoInterface[]>([]);
+
+  // ↓ effect pour debug
+  constructor() {
+    effect(() => {
+      console.log(this.todosList());
+    });
+  }
+}

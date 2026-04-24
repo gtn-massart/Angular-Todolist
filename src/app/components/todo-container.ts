@@ -9,6 +9,10 @@ import { TodosList } from './todos-list';
     <app-todo-form />
     <app-todos-list />
   `,
-  styles: ``,
+  styles: `
+    :host{
+      padding: 32px;
+    }
+  `,
 })
 export class TodoContainer {}

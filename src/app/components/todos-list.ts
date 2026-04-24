@@ -1,4 +1,4 @@
-import { Component, effect, input } from '@angular/core';
+import { Component, effect, input, output } from '@angular/core';
 import { Todo } from './todo';
 import { TodoInterface } from '../shared/interfaces/todo.interface';
 
@@ -8,7 +8,7 @@ import { TodoInterface } from '../shared/interfaces/todo.interface';
   template: `
     <ul class="flex flex-col gap-12">
       @for (todo of todosList(); track todo.id) {
-        <app-todo [todo]="todo" />
+        <app-todo (toggleTodo)="toggleTodo.emit($event)" [todo]="todo" />
       } @empty {
         <li>Il n'y a aucune todo pour le moment</li>
       }
@@ -23,10 +23,5 @@ import { TodoInterface } from '../shared/interfaces/todo.interface';
 export class TodosList {
   todosList = input<TodoInterface[]>([]);
 
-  // ↓ effect pour debug
-  constructor() {
-    effect(() => {
-      console.log(this.todosList());
-    });
-  }
+  toggleTodo = output<string>()
 }

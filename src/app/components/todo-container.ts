@@ -8,7 +8,7 @@ import { TodoInterface } from '../shared/interfaces/todo.interface';
   imports: [TodoForm, TodosList],
   template: `
     <app-todo-form (addTodo)="addTodo($event)" />
-    <app-todos-list [todosList]="todosList()" />
+    <app-todos-list (toggleTodo)="toggleTodo($event)" [todosList]="todosList()" />
   `,
   styles: `
     :host {
@@ -36,6 +36,21 @@ export class TodoContainer {
   ]);
 
   addTodo(todo: TodoInterface) {
-    this.todosList.update((todos) => [...todos, todo])
+    this.todosList.update((todos) => [...todos, todo]);
+  }
+
+  toggleTodo(todoId: string) {
+    this.todosList.update((todos) =>
+      todos.map((todo) => {
+        if (todoId === todo.id) {
+          return {
+            ...todo,
+            done: !todo.done,
+          };
+        } else {
+          return todo;
+        }
+      }),
+    );
   }
 }

@@ -1,0 +1,45 @@
+body {
+  font-family: 'Montserrat', sans-serif;
+  font-optical-sizing: auto;
+  color: var(--text-color);
+}
+
+.card {
+  padding: 20px;
+  border-radius: var(--radius);
+  border: var(--border)
+}
+
+.active-item {
+  background-color: var(--light);
+  border-radius: var(--radius);
+}
+
+.text-primary {
+  color: var(--primary);
+}
+
+.btn {
+  font-weight: 500;
+  border: 0;
+  border-radius: var(--radius);
+  cursor: pointer;
+  padding: 8px 12px;
+  transition: background-color .4s;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+  &:hover {
+    background-color: var(--dark);
+  }
+}
+
+.btn-danger {
+
+}
+
+.btn-success {
+
+}

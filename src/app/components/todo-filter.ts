@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-todo-filter',
   imports: [],
   template: `
-    <input type="text" />
+    <input type="text" class="border py-6" placeholder="Rechercher" />
   `,
   styles: ``,
 })

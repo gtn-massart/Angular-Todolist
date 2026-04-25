@@ -1,4 +1,4 @@
-import { Component, effect, input, output } from '@angular/core';
+import { Component, computed, signal, input, output } from '@angular/core';
 import { Todo } from './todo';
 import { TodoInterface } from '../shared/interfaces/todo.interface';
 import { TodoFilter } from './todo-filter';
@@ -9,6 +9,7 @@ import { TodoFilter } from './todo-filter';
   template: `
     <hr />
     <app-todo-filter />
+    <hr />
     <ul class="flex flex-col gap-12">
       @for (todo of todosList(); track todo.id) {
         <app-todo (toggleTodo)="toggleTodo.emit($event)" [todo]="todo" />
@@ -24,7 +25,10 @@ import { TodoFilter } from './todo-filter';
   `,
 })
 export class TodosList {
-  filter = '';
+  filter = signal<string>('');
   todosList = input<TodoInterface[]>([]);
+  filterdTodosList = computed(() =>
+    this.todosList().filter((t) => t.name.toLowerCase().includes(this.filter())),
+  );
   toggleTodo = output<string>();
 }

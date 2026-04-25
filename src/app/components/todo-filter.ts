@@ -1,11 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, model } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-todo-filter',
-  imports: [],
+  imports: [FormsModule],
   template: `
-    <input type="text" class="border py-6" placeholder="Rechercher" />
+    <input type="text" [(ngModel)]="filter" class="border py-6" placeholder="Rechercher" />
   `,
   styles: ``,
 })
-export class TodoFilter {}
+export class TodoFilter {
+  filter = model<string>('');
+}

@@ -1,7 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { TodoForm } from './todo-form';
 import { TodosList } from './todos-list';
-import { TodoInterface } from '../shared/interfaces/todo.interface';
+import { TodoFormInterface, TodoInterface } from '../shared/interfaces/todo.interface';
+import { TodosService } from '../shared/services/todos-service';
 
 @Component({
   selector: 'app-todo-container',
@@ -18,9 +19,10 @@ import { TodoInterface } from '../shared/interfaces/todo.interface';
 })
 export class TodoContainer {
   todosList = signal<TodoInterface[]>([]);
+  todosService = inject(TodosService);
 
-  addTodo(todo: TodoInterface) {
-    this.todosList.update((todos) => [...todos, todo]);
+  addTodo(todo: TodoFormInterface) {
+    this.todosService.addTodo(todo);
   }
 
   toggleTodo(todoId: string) {

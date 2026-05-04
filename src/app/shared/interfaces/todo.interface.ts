@@ -3,3 +3,8 @@ export interface TodoInterface {
   name: string;
   done: boolean;
 }
+
+export interface TodoFormInterface {
+  name: string;
+  done: boolean;
+}

@@ -11,7 +11,7 @@ import { TodoInterface } from '../shared/interfaces/todo.interface';
     </li>
   `,
   host: {
-    "(click)": "toggleTodo.emit(todo().id)"
+    '(click)': 'toggleTodo.emit(todo()._id)',
   },
   styles: `
     li {

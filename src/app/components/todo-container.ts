@@ -17,23 +17,7 @@ import { TodoInterface } from '../shared/interfaces/todo.interface';
   `,
 })
 export class TodoContainer {
-  todosList = signal<TodoInterface[]>([
-    {
-      id: '1',
-      name: 'Ranger ma chambre',
-      done: false,
-    },
-    {
-      id: '2',
-      name: 'Apprendre Angular',
-      done: true,
-    },
-    {
-      id: '3',
-      name: 'Lire Crime et châtiment',
-      done: false,
-    },
-  ]);
+  todosList = signal<TodoInterface[]>([]);
 
   addTodo(todo: TodoInterface) {
     this.todosList.update((todos) => [...todos, todo]);
@@ -42,7 +26,7 @@ export class TodoContainer {
   toggleTodo(todoId: string) {
     this.todosList.update((todos) =>
       todos.map((todo) => {
-        if (todoId === todo.id) {
+        if (todoId === todo._id) {
           return {
             ...todo,
             done: !todo.done,

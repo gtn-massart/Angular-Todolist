@@ -13,7 +13,7 @@ import { TodoFilter } from './todo-filter';
     <p>Nombre de todo : {{ nbrOfFilteredTodos() }}</p>
     <ul class="flex flex-col gap-12">
       @for (todo of filterdTodosList(); track todo._id) {
-        <app-todo (toggleTodo)="toggleTodo.emit($event)" [todo]="todo" />
+        <app-todo (selectTodo)="selectTodo.emit($event)" (toggleTodo)="toggleTodo.emit($event)" [todo]="todo" />
       } @empty {
         <li>Il n'y a aucune todo pour le moment</li>
       }
@@ -33,4 +33,5 @@ export class TodosList {
     this.todosList().filter((t) => t.name.toLowerCase().includes(this.filter())),
   );
   toggleTodo = output<string>();
+  selectTodo = output<string>();
 }

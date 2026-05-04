@@ -1,6 +1,6 @@
 import { Component, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TodoInterface } from '../shared/interfaces/todo.interface';
+import { TodoFormInterface } from '../shared/interfaces/todo.interface';
 
 @Component({
   selector: 'app-todo-form',
@@ -23,12 +23,11 @@ import { TodoInterface } from '../shared/interfaces/todo.interface';
 })
 export class TodoForm {
   todoName: string = '';
-  addTodo = output<TodoInterface>();
+  addTodo = output<TodoFormInterface>();
 
   addTodoInput() {
     if (this.todoName) {
-      const newTodo = {
-        _id: '' + Math.floor(Math.random() * 1001),
+      const newTodo: TodoFormInterface = {
         name: this.todoName,
         done: false,
       };

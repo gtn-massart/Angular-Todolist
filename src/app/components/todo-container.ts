@@ -16,6 +16,7 @@ import { JsonPipe } from '@angular/common';
       <app-todos-list
         (updateTodo)="updateTodo($event)"
         (selectTodo)="selectTodo($event)"
+        (deleteTodo)="deleteTodo($event)"
         [todosList]="todosList()"
       />
     }
@@ -42,5 +43,9 @@ export class TodoContainer {
   }
   updateTodo(todo: TodoInterface) {
     this.todosService.updateTodo(todo)
+  }
+
+  deleteTodo(todoId: string) {
+    this.todosService.deleteTodo(todoId)
   }
 }

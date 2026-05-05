@@ -8,6 +8,7 @@ import { TodoInterface } from '../shared/interfaces/todo.interface';
     @let t = todo();
     <li class="flex gap-12 border px-12">
       <p (click)="selectTodo.emit(t._id)" class="flex-auto">{{ t.name }}</p>
+      <button (click)="deleteTodo.emit(t._id)"> supprimer </button>
       <input (click)="toggleTodo()" type="checkbox" [checked]="t.done" />
     </li>
   `,
@@ -17,6 +18,7 @@ export class Todo {
   todo = input.required<TodoInterface>();
   updateTodo = output<TodoInterface>();
   selectTodo = output<string>();
+  deleteTodo = output<string>();
   toggleTodo() {
     this.updateTodo.emit({...this.todo(), done: !this.todo().done})
   }

@@ -1,5 +1,5 @@
 import { effect, Injectable, resource, signal } from '@angular/core';
-import {TodoInterface, TodoFormInterface } from '../interfaces/todo.interface';
+import { TodoInterface, TodoFormInterface } from '../interfaces/todo.interface';
 import { Todo } from '../../components/todo';
 import { httpResource } from '@angular/common/http';
 
@@ -85,9 +85,7 @@ export class TodosService {
       const body = await response.json();
       if (response.ok) {
         console.log({ body });
-        this.todosResource.update((todos) =>
-          todos ? [...todos, body] : [body]
-      );
+        this.todosResource.update((todos) => (todos ? [...todos, body] : [body]));
       } else {
         throw new Error('Oops');
       }
@@ -98,7 +96,7 @@ export class TodosService {
 
   async updateTodo(todo: TodoInterface) {
     try {
-      const {_id, ...restTodo} = todo;
+      const { _id, ...restTodo } = todo;
       const response = await fetch(`${this.BASE_URL}/${_id}`, {
         method: 'PATCH',
         body: JSON.stringify(restTodo),
@@ -112,7 +110,25 @@ export class TodosService {
         this.todosResource.update((todos) =>
           todos?.map((t) => (t._id === (body as TodoInterface)._id ? body : t)),
         );
-        this.selectedTodoResource.reload()
+        this.selectedTodoResource.reload();
+      } else {
+        throw new Error('Oops');
+      }
+    } catch (e) {
+      throw new Error('Oops');
+    }
+  }
+
+  async deleteTodo(todoID: string) {
+    try {
+      const response = await fetch(`${this.BASE_URL}/${todoID}`, {
+        method: 'DELETE',
+      });
+      if (response.ok) {
+        this.todosResource.update((todos) => todos?.filter(({ _id }) => _id !== todoID));
+        if (this.selectedTodoId() === todoID) {
+          this.selectedTodoId.set(null);
+        }
       } else {
         throw new Error('Oops');
       }

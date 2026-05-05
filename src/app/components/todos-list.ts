@@ -16,6 +16,7 @@ import { TodoFilter } from './todo-filter';
         <app-todo
           (selectTodo)="selectTodo.emit($event)"
           (updateTodo)="updateTodo.emit($event)"
+          (deleteTodo)="deleteTodo.emit($event)"
           [todo]="todo"
         />
       } @empty {
@@ -38,4 +39,5 @@ export class TodosList {
   );
   updateTodo = output<TodoInterface>();
   selectTodo = output<string>();
+  deleteTodo = output<string>();
 }

@@ -15,7 +15,7 @@ import { TodoFilter } from './todo-filter';
       @for (todo of filterdTodosList(); track todo._id) {
         <app-todo
           (selectTodo)="selectTodo.emit($event)"
-          (toggleTodo)="toggleTodo.emit($event)"
+          (updateTodo)="updateTodo.emit($event)"
           [todo]="todo"
         />
       } @empty {
@@ -36,6 +36,6 @@ export class TodosList {
   filterdTodosList = computed(() =>
     this.todosList().filter((t) => t.name.toLowerCase().includes(this.filter())),
   );
-  toggleTodo = output<string>();
+  updateTodo = output<TodoInterface>();
   selectTodo = output<string>();
 }

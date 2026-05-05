@@ -1,7 +1,7 @@
 import { Component, computed, inject } from '@angular/core';
 import { TodoForm } from './todo-form';
 import { TodosList } from './todos-list';
-import { TodoFormInterface } from '../shared/interfaces/todo.interface';
+import { TodoFormInterface, TodoInterface } from '../shared/interfaces/todo.interface';
 import { TodosService } from '../shared/services/todos-service';
 import { JsonPipe } from '@angular/common';
 
@@ -14,7 +14,7 @@ import { JsonPipe } from '@angular/common';
       <h2>Chargement en cours...</h2>
     } @else {
       <app-todos-list
-        (toggleTodo)="toggleTodo($event)"
+        (updateTodo)="updateTodo($event)"
         (selectTodo)="selectTodo($event)"
         [todosList]="todosList()"
       />
@@ -40,5 +40,7 @@ export class TodoContainer {
   selectTodo(todoId: string) {
     this.todosService.selectTodo(todoId);
   }
-  toggleTodo(todoId: string) {}
+  updateTodo(todo: TodoInterface) {
+    this.todosService.updateTodo(todo)
+  }
 }

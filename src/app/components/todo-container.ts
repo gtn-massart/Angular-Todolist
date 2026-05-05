@@ -10,11 +10,15 @@ import { JsonPipe } from '@angular/common';
   imports: [TodoForm, TodosList, JsonPipe],
   template: `
     <app-todo-form (addTodo)="addTodo($event)" />
-    <app-todos-list
-      (toggleTodo)="toggleTodo($event)"
-      (selectTodo)="selectTodo($event)"
-      [todosList]="todosList()"
-    />
+    @if (todosIsLoading()) {
+      <h2>Chargement en cours...</h2>
+    } @else {
+      <app-todos-list
+        (toggleTodo)="toggleTodo($event)"
+        (selectTodo)="selectTodo($event)"
+        [todosList]="todosList()"
+      />
+    }
     <pre>{{ selectedTodo() | json }}</pre>
   `,
   styles: `
@@ -26,6 +30,7 @@ import { JsonPipe } from '@angular/common';
 export class TodoContainer {
   todosService = inject(TodosService);
   todosList = computed(() => this.todosService.todosResource.value() || []);
+  todosIsLoading = this.todosService.todosResource.isLoading;
   selectedTodo = this.todosService.selectedTodoResource.value;
 
   addTodo(todo: TodoFormInterface) {

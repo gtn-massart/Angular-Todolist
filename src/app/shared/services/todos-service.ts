@@ -1,4 +1,4 @@
-import { Injectable, resource, signal } from '@angular/core';
+import { effect, Injectable, resource, signal } from '@angular/core';
 import { TodoFormInterface, TodoInterface } from '../interfaces/todo.interface';
 import { Todo } from '../../components/todo';
 
@@ -7,29 +7,48 @@ import { Todo } from '../../components/todo';
 })
 export class TodosService {
   BASE_URL = 'https://restapi.fr/api/atodos';
-
-  todosResource = resource({
-    loader: async (): Promise<TodoInterface[]> => (await fetch(this.BASE_URL)).json(),
-  });
-
   selectedTodoId = signal<string | null>(null);
 
+  todosResource = resource({
+    loader: async (): Promise<TodoInterface[]> => {
+      // ↓ ?delay=3 simule un chargement plus long, ici 3 secondes
+      const response = await fetch(`${this.BASE_URL}?delay=3`);
+      if (!response.ok) {
+        throw new Error('Erreur lors du chaergement des tâches.');
+      } else {
+        return response.json();
+      }
+    },
+  });
+
+  reloadTodos() {
+    this.todosResource.reload();
+  }
+
   selectedTodoResource = resource({
-    params: this.selectedTodoId,
-    loader: async ({ params }): Promise<Todo | undefined> => {
-      if (params) {
-        return (await fetch(`${this.BASE_URL}/${params}`)).json();      
+    params: () => ({ id: this.selectedTodoId() }),
+    loader: async ({ params: { id }, abortSignal, previous }): Promise<Todo | undefined> => {
+      if (id) {
+        return (await fetch(`${this.BASE_URL}/${id}`, { signal: abortSignal })).json();
       } else {
         return;
       }
-    } 
+    },
   });
 
-  constructor() {}
+  constructor() {
+    effect(() => {
+      console.log({
+        value: this.todosResource.value(),
+        isLoading: this.todosResource.isLoading(),
+        error: this.todosResource.error(),
+        status: this.todosResource.status(),
+      });
+    });
+  }
 
   selectTodo(todoId: string) {
     this.selectedTodoId.set(todoId);
-    console.log(this.selectedTodoId());
   }
 
   async addTodo(todo: TodoFormInterface) {
